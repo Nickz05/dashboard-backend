@@ -1,0 +1,246 @@
+// schema.prisma
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+// ──────────────
+// PROJECTEN
+// ──────────────
+model Project {
+    id            Int            @id @default(autoincrement())
+    title         String
+    description   String?        @db.Text
+    status        ProjectStatus  @default(CONCEPT)
+    timeline      String?
+    contactPerson String?
+    stagingUrl    String?
+
+    clientId      Int
+    client        User           @relation("ClientProjects", fields: [clientId], references: [id])
+
+    tasks         Task[]
+    files         File[]
+    invoices      Invoice[]
+    comments      Comment[]
+    features      Feature[]
+    activities    Activity[]
+
+    createdAt     DateTime       @default(now())
+    updatedAt     DateTime       @updatedAt
+
+    @@index([clientId])
+    @@index([status])
+}
+
+// ──────────────
+// TAKEN
+// ──────────────
+model Task {
+    id           Int         @id @default(autoincrement())
+    title        String
+    description  String?     @db.Text
+    status       TaskStatus  @default(PENDING)
+    isClientTask Boolean     @default(true)
+    feedback     String?
+
+    projectId    Int
+    project      Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    createdAt    DateTime    @default(now())
+    updatedAt    DateTime    @updatedAt
+
+    @@index([projectId])
+}
+
+// ──────────────
+// BESTANDEN (Aangepast voor uploader relatie)
+// ──────────────
+model File {
+    id          Int      @id @default(autoincrement())
+    fileName    String
+    fileType    String
+    fileUrl     String
+    isPublic    Boolean  @default(false)
+    uploadedBy  String   // Veld voor de rol ('CLIENT' of 'ADMIN')
+
+    projectId   Int
+    project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    // NIEUW: Veld om de ID van de uploader te linken (de oorzaak van de TS2561 fout)
+    uploaderId  Int
+    uploader    User     @relation("UploadedFiles", fields: [uploaderId], references: [id], onDelete: Cascade)
+
+    createdAt   DateTime @default(now())
+
+    @@index([projectId])
+    @@index([uploaderId]) // Index toegevoegd
+}
+
+// ──────────────
+// FACTUREN
+// ──────────────
+model Invoice {
+    id            Int             @id @default(autoincrement())
+    invoiceNumber String          @unique
+    amount        Float
+    dueDate       DateTime
+    paymentStatus PaymentStatus   @default(PENDING)
+    fileUrl       String
+
+    projectId     Int
+    project       Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    createdAt     DateTime        @default(now())
+
+    @@index([projectId])
+}
+
+// ──────────────
+// COMMENTS (+ REPLIES)
+// ──────────────
+model Comment {
+    id        Int       @id @default(autoincrement())
+    content   String    @db.Text
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+
+    // Project relatie
+    projectId Int
+    project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    // Auteur relatie
+    authorId  Int
+    author    User      @relation("AuthoredComments", fields: [authorId], references: [id], onDelete: Cascade)
+
+    // Reply systeem
+    parentId  Int?
+    parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+    replies   Comment[] @relation("CommentReplies")
+
+    @@index([projectId])
+    @@index([authorId])
+    @@index([createdAt])
+}
+
+// ──────────────
+// FEATURES
+// ──────────────
+model Feature {
+    id          Int               @id @default(autoincrement())
+    title       String
+    description String            @db.Text
+    status      FeatureStatus     @default(TODO)
+    priority    FeaturePriority   @default(MEDIUM)
+    createdAt   DateTime          @default(now())
+    updatedAt   DateTime          @updatedAt
+
+    projectId   Int
+    project     Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    @@index([projectId])
+    @@index([status])
+}
+
+// ──────────────
+// ACTIVITY TRACKING
+// ──────────────
+model Activity {
+    id          Int          @id @default(autoincrement())
+    projectId   Int
+    userId      Int
+    type        ActivityType
+    description String       @db.Text
+    metadata    Json?
+    createdAt   DateTime     @default(now())
+
+    project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    user        User         @relation("UserActivities", fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([projectId])
+    @@index([userId])
+    @@index([createdAt])
+}
+
+// ──────────────
+// USERS (Aangepast voor File relatie)
+// ──────────────
+model User {
+    id                Int       @id @default(autoincrement())
+    name              String?
+    email             String    @unique
+    password          String
+    role              Role      @default(CLIENT)
+
+    projects          Project[]  @relation("ClientProjects")
+    comments          Comment[]  @relation("AuthoredComments")
+    activities        Activity[] @relation("UserActivities")
+    files             File[]     @relation("UploadedFiles") // NIEUW: Back-relatie toegevoegd
+
+    mustChangePassword Boolean  @default(false)
+    resetToken         String?  @unique
+    resetTokenExpiry   DateTime?
+
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
+
+// ──────────────
+// ENUMS
+// ──────────────
+enum Role {
+    ADMIN
+    CLIENT
+}
+
+enum ProjectStatus {
+    CONCEPT
+    IN_DESIGN
+    WAITING_FOR_CONTENT
+    DEVELOPMENT
+    STAGING
+    LIVE
+}
+
+enum TaskStatus {
+    PENDING
+    IN_PROGRESS
+    COMPLETED
+    NEEDS_REVIEW
+}
+
+enum PaymentStatus {
+    PENDING
+    PAID
+    OVERDUE
+    CANCELED
+}
+
+enum FeatureStatus {
+    TODO
+    IN_PROGRESS
+    COMPLETED
+}
+
+enum FeaturePriority {
+    LOW
+    MEDIUM
+    HIGH
+}
+
+enum ActivityType {
+    COMMENT
+    FEATURE_ADDED
+    FEATURE_UPDATED
+    FEATURE_DELETED
+    STATUS_CHANGED
+    TITLE_CHANGED
+    TIMELINE_UPDATED
+    DESCRIPTION_UPDATED
+    PROJECT_CREATED
+}
