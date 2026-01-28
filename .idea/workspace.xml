@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69c3ddec-7bbb-4229-ab63-81ea65092fd2" name="Changes" comment="prisma added to package.json" />
+    <list default="true" id="69c3ddec-7bbb-4229-ab63-81ea65092fd2" name="Changes" comment="nugfix; spelfout" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -100,7 +100,7 @@
       <workItem from="1762960333813" duration="997000" />
       <workItem from="1762963494512" duration="3915000" />
       <workItem from="1765449974680" duration="4528000" />
-      <workItem from="1769594325113" duration="10061000" />
+      <workItem from="1769594325113" duration="10475000" />
     </task>
     <task id="LOCAL-00001" summary="Backend update">
       <option name="closed" value="true" />
@@ -166,7 +166,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769618161444</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="nugfix; spelfout">
+      <option name="closed" value="true" />
+      <created>1769618313422</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1769618313423</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -179,6 +187,7 @@
     <MESSAGE value="cross origin" />
     <MESSAGE value="port changed" />
     <MESSAGE value="prisma added to package.json" />
-    <option name="LAST_COMMIT_MESSAGE" value="prisma added to package.json" />
+    <MESSAGE value="nugfix; spelfout" />
+    <option name="LAST_COMMIT_MESSAGE" value="nugfix; spelfout" />
   </component>
 </project>
