@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 const allowedOrigins = [
     'http://localhost:5173',
     'https://dashboard.nickzomer.com',
+    'https://api.dashboard.nickzomer.com',
     process.env.FRONTEND_URL || '',
 ];
 
