@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69c3ddec-7bbb-4229-ab63-81ea65092fd2" name="Changes" comment="Backend update" />
+    <list default="true" id="69c3ddec-7bbb-4229-ab63-81ea65092fd2" name="Changes" comment="prisma added to package.json">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -56,6 +59,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Node.js.app.ts.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "last_opened_file_path": "C:/Users/nickz/Documents/personal_projects/dashboard-zomerdev/dashboard-backend",
@@ -99,7 +103,7 @@
       <workItem from="1762960333813" duration="997000" />
       <workItem from="1762963494512" duration="3915000" />
       <workItem from="1765449974680" duration="4528000" />
-      <workItem from="1769594325113" duration="762000" />
+      <workItem from="1769594325113" duration="9485000" />
     </task>
     <task id="LOCAL-00001" summary="Backend update">
       <option name="closed" value="true" />
@@ -117,7 +121,47 @@
       <option name="project" value="LOCAL" />
       <updated>1769595088896</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="tsconfig update">
+      <option name="closed" value="true" />
+      <created>1769595294949</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1769595294949</updated>
+    </task>
+    <task id="LOCAL-00004" summary="app aanpassing">
+      <option name="closed" value="true" />
+      <created>1769596961530</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1769596961530</updated>
+    </task>
+    <task id="LOCAL-00005" summary="cross origin">
+      <option name="closed" value="true" />
+      <created>1769598223965</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1769598223965</updated>
+    </task>
+    <task id="LOCAL-00006" summary="port changed">
+      <option name="closed" value="true" />
+      <created>1769612953163</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1769612953163</updated>
+    </task>
+    <task id="LOCAL-00007" summary="prisma added to package.json">
+      <option name="closed" value="true" />
+      <created>1769616955477</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1769616955477</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,6 +169,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Backend update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Backend update" />
+    <MESSAGE value="tsconfig update" />
+    <MESSAGE value="app aanpassing" />
+    <MESSAGE value="cross origin" />
+    <MESSAGE value="port changed" />
+    <MESSAGE value="prisma added to package.json" />
+    <option name="LAST_COMMIT_MESSAGE" value="prisma added to package.json" />
   </component>
 </project>
