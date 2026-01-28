@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
 
 
-app.use("/api/auth", passwordResetRouter); // ✅ TOEVOEGEN - EERST!
+app.use("/api/auth", passwordResetRouter);
 
 // Routes
 app.use("/api/auth", authRouter);
