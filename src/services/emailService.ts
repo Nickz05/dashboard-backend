@@ -3,7 +3,6 @@ import nodemailer from 'nodemailer';
 // Hulpfunctie om de HTML-inhoud te genereren
 const generateResetPasswordHtml = (userName: string, resetUrl: string): string => {
     const currentYear = new Date().getFullYear();
-    // ✅ ZOMER DEVELOPMENT KLEUREN
     const primaryColor = '#FFA500'; // Helder Oranje/Geel (Actie/Zon)
     const secondaryColor = '#002B4B'; // Donkerblauw (Headers, Links, Merk)
     const buttonTextColor = '#000000'; // Zwarte tekst op oranje knop voor contrast

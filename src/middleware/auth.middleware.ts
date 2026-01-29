@@ -2,13 +2,14 @@
 
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { jwtConfig } from "../config/jwt.config"; // Gebruik je eigen config
+import { jwtConfig } from "../config/jwt.config";
 
-// Breid de Express Request interface uit om de gebruiker-ID op te slaan
+// Breid de Express Request interface uit om userId EN userRole op te slaan
 declare global {
     namespace Express {
         interface Request {
             userId?: number;
+            userRole?: 'ADMIN' | 'CLIENT';  // ← NIEUW
         }
     }
 }
@@ -23,12 +24,16 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     const token = authHeader.split(" ")[1];
 
     try {
-        // 2. Verifieer de token
-        const decoded = jwt.verify(token, jwtConfig.secret) as { id: number, email: string };
+        // 2. Verifieer de token en voeg role toe aan type
+        const decoded = jwt.verify(token, jwtConfig.secret) as {
+            id: number;
+            email: string;
+            role: 'ADMIN' | 'CLIENT';  // ← NIEUW
+        };
 
-        // 3. Sla de gebruiker-ID op in het request object
-        // Dit maakt de ID beschikbaar voor je controllers
+        // 3. Sla de gebruiker-ID EN role op in het request object
         req.userId = decoded.id;
+        req.userRole = decoded.role;  // ← NIEUW
 
         // 4. Ga verder naar de volgende middleware of controller
         next();

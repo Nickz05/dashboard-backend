@@ -56,9 +56,6 @@ export const login = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
 
-        // ✅ Optional: Rate limiting at IP address level
-        // Implement this with express-rate-limit or similar
-
         // ✅ Fetch user
         const user = await prisma.user.findUnique({ where: { email } });
 
@@ -69,17 +66,18 @@ export const login = async (req: Request, res: Response) => {
 
         // ✅ Generic error message for both cases
         if (!user || !valid) {
-            // ✅ Optional: Log failed login attempts for monitoring
-            // logger.warn(`Failed login attempt for email: ${email}`);
-
             return res.status(401).json({
                 message: "Invalid credentials"
             });
         }
 
-        // ✅ Only if everything is correct, generate token
+        // ✅ Generate token WITH role
         const token = jwt.sign(
-            { id: user.id, email: user.email },
+            {
+                id: user.id,
+                email: user.email,
+                role: user.role  // ← TOEGEVOEGD!
+            },
             JWT_SECRET,
             { expiresIn: "8h" }
         );
